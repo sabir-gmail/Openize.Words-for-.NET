@@ -166,8 +166,8 @@ namespace Openize.Words
         {
             lock (_lockObject)
             {
-                try
-                {
+                //try
+                //{
                     if (!_isNew)
                     {
                         using var fs = new IO.FileStream(filename, IO.FileMode.Create);
@@ -180,12 +180,12 @@ namespace Openize.Words
                         using var fs = new IO.FileStream(filename, IO.FileMode.Create);
                         _ooxmlDoc.SaveDocument(fs);
                     }
-                }
-                catch (Exception ex)
-                {
-                    var errorMessage = ConstructMessage(ex, "Saving Document to file");
-                    throw new OpenizeException(errorMessage, ex);
-                }
+                //}
+                //catch (Exception ex)
+                //{
+                  //  var errorMessage = ConstructMessage(ex, "Saving Document to file");
+                    //throw new OpenizeException(errorMessage, ex);
+                //}
             }
         }
 

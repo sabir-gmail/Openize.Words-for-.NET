@@ -6,12 +6,15 @@ using DF = DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using WP = DocumentFormat.OpenXml.Wordprocessing;
 using A = DocumentFormat.OpenXml.Drawing;
+//using  = DocumentFormat.OpenXml.Drawing.Wordprocessing;
 using DW = DocumentFormat.OpenXml.Drawing.Wordprocessing;
 using PIC = DocumentFormat.OpenXml.Drawing.Pictures;
 using FF = Openize.Words.IElements;
 using OWD = OpenXML.Words.Data;
 using OT = OpenXML.Templates;
 using Openize.Words;
+//using Wp = DocumentFormat.OpenXml.Drawing.Wordprocessing;
+using DWS = DocumentFormat.OpenXml.Office2010.Word.DrawingShape;
 
 namespace OpenXML.Words
 {
@@ -135,14 +138,17 @@ namespace OpenXML.Words
         #region Main Method
         internal void CreateDocument(List<FF.IElement> lst)
         {
-            try
-            {
+            //try
+            //{
                 _wpBody = _mainPart.Document.Body;
 
                 if (_wpBody == null)
                     throw new OpenizeException("Package or Document or Body is null", new NullReferenceException());
 
                 var sectionProperties = _wpBody.Elements<WP.SectionProperties>().FirstOrDefault();
+
+                var paraDW = CreateShape(100, 100, 200, 100);
+                _wpBody.InsertBefore(paraDW, sectionProperties);
 
                 foreach (var element in lst)
                 {
@@ -168,12 +174,12 @@ namespace OpenXML.Words
                             }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                var errorMessage = OWD.OoxmlDocData.ConstructMessage(ex, "Initialize OOXML Element(s)");
-                throw new OpenizeException(errorMessage, ex);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+              //  var errorMessage = OWD.OoxmlDocData.ConstructMessage(ex, "Initialize OOXML Element(s)");
+               // throw new OpenizeException(errorMessage, ex);
+            //}
 
         }
         #endregion
@@ -662,6 +668,162 @@ namespace OpenXML.Words
             }
         }
         #endregion
+        #region Create OpenXML Shape
+        internal WP.Paragraph CreateShape(int x, int y, int width, int height)
+        {
+            /**
+            var oval = new DW.Inline(
+                new A.Graphic(
+                    new A.GraphicData(
+                        new A.ShapeProperties(
+                            new A.Transform2D(
+                                new A.Offset() { X = x * 9525, Y = y * 9525 },
+                                new A.Extents() { Cx = width * 9525, Cy = height * 9525 }
+                            ),
+                            new A.PresetGeometry(new A.AdjustValueList()) { Preset = A.ShapeTypeValues.Ellipse }
+                        )
+                    )
+                )
+                //{  = "http://schemas.openxmlformats.org/drawingml/2006/main" }
+            );
+
+            drawing.Append(oval);
+            var para = new WP.Paragraph(new WP.Run(drawing));
+            return para;
+            **/
+            var paragraph10 = new WP.Paragraph()
+            { RsidParagraphAddition = "5B44A70C", RsidRunAdditionDefault = "5B44A70C", ParagraphId = "5D0A7A7E", TextId = "6BD56A01" };
+
+            var run2 = new WP.Run();
+
+            var runProperties1 = new WP.RunProperties();
+            var noProof1 = new WP.NoProof();
+
+            runProperties1.Append(noProof1);
+
+            var alternateContent1 = new DF.AlternateContent();
+            alternateContent1.AddNamespaceDeclaration("mc", "http://schemas.openxmlformats.org/markup-compatibility/2006");
+
+            var alternateContentChoice1 = new DF.AlternateContentChoice() { Requires = "wps" };
+            alternateContentChoice1.AddNamespaceDeclaration("mc", "http://schemas.openxmlformats.org/markup-compatibility/2006");
+
+            var drawing2 = new WP.Drawing();
+            drawing2.AddNamespaceDeclaration("w", "http://schemas.openxmlformats.org/wordprocessingml/2006/main");
+
+            var inline2 = new DW.Inline()
+            { DistanceFromTop = (DF.UInt32Value)0U, DistanceFromBottom = (DF.UInt32Value)0U, DistanceFromLeft = (DF.UInt32Value)0U, DistanceFromRight = (DF.UInt32Value)0U, AnchorId = "27EE2959", EditId = "551435BE" };
+            inline2.AddNamespaceDeclaration("wp", "http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing");
+            inline2.AddNamespaceDeclaration("wp14", "http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing");
+
+            //var extent1 = new DW.Extent() { Cx = 1491330L, Cy = 1186518L };
+            var extent1 = new DW.Extent() { Cx = width * 9525, Cy = height * 9525 };
+            extent1.AddNamespaceDeclaration("wp", "http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing");
+
+            var effectExtent1 = new DW.EffectExtent() { LeftEdge = 0L, TopEdge = 0L, RightEdge = 13970L, BottomEdge = 13970L };
+            effectExtent1.AddNamespaceDeclaration("wp", "http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing");
+
+            var docProperties1 = new DW.DocProperties() { Id = (DF.UInt32Value)1609145151U, Name = "Oval 1" };
+            docProperties1.AddNamespaceDeclaration("wp", "http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing");
+
+            var nonVisualGraphicFrameDrawingProperties1 = new DW.NonVisualGraphicFrameDrawingProperties();
+            nonVisualGraphicFrameDrawingProperties1.AddNamespaceDeclaration("wp", "http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing");
+
+            var graphic2 = new A.Graphic();
+            graphic2.AddNamespaceDeclaration("a", "http://schemas.openxmlformats.org/drawingml/2006/main");
+
+            var graphicData2 = new A.GraphicData() { Uri = "http://schemas.microsoft.com/office/word/2010/wordprocessingShape" };
+
+            var wordprocessingShape1 = new DWS.WordprocessingShape();
+            wordprocessingShape1.AddNamespaceDeclaration("wps", "http://schemas.microsoft.com/office/word/2010/wordprocessingShape");
+            var nonVisualDrawingShapeProperties1 = new DWS.NonVisualDrawingShapeProperties();
+
+            var shapeProperties1 = new DWS.ShapeProperties();
+
+            var transform2D1 = new A.Transform2D();
+            //var offset1 = new A.Offset() { X = 0L, Y = 0L };
+            var offset1 = new A.Offset() { X = x * 9525, Y = y * 9525 };
+            //var extents1 = new A.Extents() { Cx = 1491330L, Cy = 1186518L };
+            var extents1 = new A.Extents() { Cx = width * 9525, Cy = height * 9525 };
+
+            transform2D1.Append(offset1);
+            transform2D1.Append(extents1);
+
+            var presetGeometry1 = new A.PresetGeometry() { Preset = A.ShapeTypeValues.Ellipse };
+            var adjustValueList1 = new A.AdjustValueList();
+
+            presetGeometry1.Append(adjustValueList1);
+            var outline4 = new A.Outline();
+
+            shapeProperties1.Append(transform2D1);
+            shapeProperties1.Append(presetGeometry1);
+            shapeProperties1.Append(outline4);
+
+            DWS.ShapeStyle shapeStyle1 = new DWS.ShapeStyle();
+
+            var lineReference1 = new A.LineReference() { Index = (DF.UInt32Value)2U };
+
+            var schemeColor16 = new A.SchemeColor() { Val = A.SchemeColorValues.Accent1 };
+            var shade6 = new A.Shade() { Val = 50000 };
+
+            schemeColor16.Append(shade6);
+
+            lineReference1.Append(schemeColor16);
+
+            var fillReference1 = new A.FillReference() { Index = (DF.UInt32Value)1U };
+            var schemeColor17 = new A.SchemeColor() { Val = A.SchemeColorValues.Accent1 };
+
+            fillReference1.Append(schemeColor17);
+
+            var effectReference1 = new A.EffectReference() { Index = (DF.UInt32Value)0U };
+            var rgbColorModelPercentage1 = new A.RgbColorModelPercentage() { RedPortion = 0, GreenPortion = 0, BluePortion = 0 };
+
+            effectReference1.Append(rgbColorModelPercentage1);
+
+            var fontReference1 = new A.FontReference() { Index = A.FontCollectionIndexValues.Minor };
+            var schemeColor18 = new A.SchemeColor() { Val = A.SchemeColorValues.Light1 };
+
+            fontReference1.Append(schemeColor18);
+
+            shapeStyle1.Append(lineReference1);
+            shapeStyle1.Append(fillReference1);
+            shapeStyle1.Append(effectReference1);
+            shapeStyle1.Append(fontReference1);
+            DWS.TextBodyProperties textBodyProperties1 = new DWS.TextBodyProperties() { Anchor = A.TextAnchoringTypeValues.Center };
+
+            wordprocessingShape1.Append(nonVisualDrawingShapeProperties1);
+            wordprocessingShape1.Append(shapeProperties1);
+            wordprocessingShape1.Append(shapeStyle1);
+            wordprocessingShape1.Append(textBodyProperties1);
+
+            graphicData2.Append(wordprocessingShape1);
+
+            graphic2.Append(graphicData2);
+
+            inline2.Append(extent1);
+            inline2.Append(effectExtent1);
+            inline2.Append(docProperties1);
+            inline2.Append(nonVisualGraphicFrameDrawingProperties1);
+            inline2.Append(graphic2);
+
+            drawing2.Append(inline2);
+
+            alternateContentChoice1.Append(drawing2);
+
+            var alternateContentFallback1 = new DF.AlternateContentFallback();
+            alternateContentFallback1.AddNamespaceDeclaration("mc", "http://schemas.openxmlformats.org/markup-compatibility/2006");
+
+            alternateContent1.Append(alternateContentChoice1);
+            alternateContent1.Append(alternateContentFallback1);
+
+            run2.Append(runProperties1);
+            run2.Append(alternateContent1);
+
+            paragraph10.Append(run2);
+
+            return paragraph10;
+        }
+        #endregion
+
         #endregion
 
         #region Load OpenXML Word Document Content into Openize.Words.IElements
